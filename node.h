@@ -14,7 +14,7 @@
  *        Node         : A class representing a Node
  *    Additionally, it will contain a few functions working on Node
  * Author
- *    <your names here>
+ *    Daniel Carr, Jarom Anderson, Arlo Jolly
  ************************************************************************/
 
 #pragma once
@@ -36,23 +36,13 @@ public:
    //
    // Construct
    //
-   //
-   // Construct
-   //
 
-   Node() 
-   { 
-      pNext = pPrev = this;
-   }
-   Node(const T& data) 
-   {
-      pNext = pPrev = this;
-   }
+   // Default Constructor
+   Node() : pNext(nullptr), pPrev(nullptr) {}
+   // Copy Constructor
+   Node(const T& data) : pNext(nullptr), pPrev(nullptr), data(data) {}
 
-   Node(T&& data) 
-   {
-      pNext = pPrev = this;
-   }
+   Node(T&& data) : pNext(nullptr), pPrev(nullptr), data(std::move(data)) {}
 
    //
    // Member variables
@@ -74,7 +64,18 @@ public:
 template <class T>
 inline Node <T> * copy(const Node <T> * pSource) 
 {
-   return new Node<T>;
+   if (!pSource)
+      return nullptr;
+
+   // Create the head of the new list
+   Node<T>* pDestination = new Node<T>(pSource->data);
+   Node<T>* pCurrent = pDestination;
+
+   // Use a standard for loop to copy the rest of the list
+   for (const Node<T>* pSrcCurrent = pSource->pNext; pSrcCurrent; pSrcCurrent = pSrcCurrent->pNext)
+      pCurrent = insert(pCurrent, pSrcCurrent->data, true);
+
+   return pDestination;
 }
 
 /***********************************************
@@ -133,7 +134,29 @@ inline Node <T> * insert(Node <T> * pCurrent,
                   const T & t,
                   bool after = false)
 {
-   return new Node<T>();
+   Node<T>* newNode = new Node<T>(t);
+
+   if (pCurrent)
+   {
+      if (after)
+      {
+         newNode->pNext = pCurrent->pNext;
+         newNode->pPrev = pCurrent;
+         if (pCurrent->pNext)
+            pCurrent->pNext->pPrev = newNode;
+         pCurrent->pNext = newNode;
+      }
+      else
+      {
+         newNode->pPrev = pCurrent->pPrev;
+         newNode->pNext = pCurrent;
+         if (pCurrent->pPrev)
+            pCurrent->pPrev->pNext = newNode;
+         pCurrent->pPrev = newNode;
+      }
+   }
+
+   return newNode;
 }
 
 /******************************************************
