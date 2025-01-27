@@ -36,20 +36,13 @@ public:
    //
    // Construct
    //
-   //
-   // Construct
-   //
 
-   Node() 
-   { 
-      pNext = pPrev = this;
-   }
-   Node(const T& data) 
-   {
-      pNext = pPrev = this;
-   }
+   // Default Constructor
+   Node() : pNext(nullptr), pPrev(nullptr), data(new T) {}
+   // Copy Constructor
+   Node(const T& data) : pNext(nullptr), pPrev(nullptr), data(data) {}
 
-   Node(T&& data) 
+   Node(T&& data)
    {
       pNext = pPrev = this;
    }
@@ -72,7 +65,7 @@ public:
  *   COST   : O(n)
  **********************************************/
 template <class T>
-inline Node <T> * copy(const Node <T> * pSource) 
+inline Node <T> * copy(const Node <T> * pSource)
 {
    return new Node<T>;
 }
@@ -88,7 +81,7 @@ inline Node <T> * copy(const Node <T> * pSource)
 template <class T>
 inline void assign(Node <T> * & pDestination, const Node <T> * pSource)
 {
-   
+
 }
 
 /***********************************************
@@ -99,7 +92,7 @@ inline void assign(Node <T> * & pDestination, const Node <T> * pSource)
 template <class T>
 inline void swap(Node <T>* &pLHS, Node <T>* &pRHS)
 {
-   
+
 }
 
 /***********************************************
@@ -110,15 +103,15 @@ inline void swap(Node <T>* &pLHS, Node <T>* &pRHS)
  *   COST   : O(1)
  **********************************************/
 template <class T>
-inline Node <T> * remove(const Node <T> * pRemove) 
+inline Node <T> * remove(const Node <T> * pRemove)
 {
-   
+
    return new Node<T>;
 }
 
 
 /**********************************************
- * INSERT 
+ * INSERT
  * Insert a new node the the value in "t" into a linked
  * list immediately before the current position.
  *   INPUT   : t - the value to be used for the new node
@@ -138,7 +131,7 @@ inline Node <T> * insert(Node <T> * pCurrent,
 
 /******************************************************
  * SIZE
- * Find the size an unsorted linked list.  
+ * Find the size an unsorted linked list.
  *  INPUT   : a pointer to the head of the linked list
  *            the value to be found
  *  OUTPUT  : number of nodes
@@ -174,7 +167,5 @@ inline std::ostream & operator << (std::ostream & out, const Node <T> * pHead)
 template <class T>
 inline void clear(Node <T> * & pHead)
 {
-   
+
 }
-
-
