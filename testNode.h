@@ -33,11 +33,11 @@ public:
       test_copy_standard();
       
       // Assign
-      //test_assign_emptyToEmpty();
-      //test_assign_standardToEmpty();
-      //test_assign_emptyToStandard();
-      //test_assign_smallToBig();
-      //test_assign_bigToSmall();
+      /*test_assign_emptyToEmpty();
+      test_assign_standardToEmpty();
+      test_assign_emptyToStandard();
+      test_assign_smallToBig();
+      test_assign_bigToSmall();*/
       //test_swap_emptyEmpty();
       //test_swap_emptyStandard();
       //test_swap_standardEmpty();
@@ -227,10 +227,12 @@ public:
       //    +----+   +----+   +----+
       Node <Spy>* p11, * p26, * p31;
       setupStandardFixture(p11, p26, p31);
+
       Node <Spy>* pDes = nullptr;
       Spy::reset();
       // exercise
       pDes = copy(p11);
+      std::cout << &pDes->data << std::endl; // test display function
       // verify
       assertUnit(Spy::numCopy() == 3);        // copy [11][26][31] to pDes    
       assertUnit(Spy::numAlloc() == 3);       // the copy involves an allocation
