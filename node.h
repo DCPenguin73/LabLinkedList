@@ -91,6 +91,96 @@ inline Node <T> * copy(const Node <T> * pSource)
 template <class T>
 inline void assign(Node <T> * & pDestination, const Node <T> * pSource)
 {
+   // pSrc <- pSource
+   // pDes <- pDestination
+   // WHILE pSrc != NULL AND pDes != NULL
+   //     pDes.data <- pSrc.data
+   //     pDes <- pDes.pNext
+   //     pSrc <- pSrc.pNext
+
+   // IF pSrc != NULL
+   //     pDes <- pDesPrevious
+   //
+   //     WHILE pSrc != NULL
+   //         pDes <- insert(pDes, pSrc.data, TRUE)
+   //         IF pDestination = NULL
+   //             pDestination <- pDes
+   //         pSrc <- pSrc.pNext
+
+   // IF pSrc = NULL AND pDes != NULL
+   //     setToNull <- FALSE
+   //     IF pDes.pPrev != NULL
+   //         pDes.pPrev.pNext <- NULL
+   //     ELSE
+   //         setToNull <- TRUE
+   //
+   //     freeData(pDes)
+   //
+   //     IF setToNull
+   //         pDestination <- NULL
+
+   const Node<T> * pSrc = pSource;
+         Node<T> * pDes = pDestination;
+         Node<T> * pDesPrevious = nullptr;
+
+   while (pSrc && pDes)
+   {
+      pDes->data = pSrc->data;
+      pDesPrevious = pDes;
+      pDes = pDes->pNext;
+      pSrc = pSrc->pNext;
+   }
+
+   bool setToNull = false;
+
+   if (!pSrc && pDes) // pSource is smaller than pDestination
+   {
+      // Node<T> * pEnd = pDes;
+
+      // while (pDes->pNext) // move pDes to the end of the list.
+      // {
+      //    pDes = pDes->pNext; // move pDes forward 1 node
+      // }
+
+      // while (pDes != pEnd) {
+      //    delete pDes->pNext;
+      //    pDes = pDes->pPrev;
+      // }
+
+      if (pDes->pPrev)
+      {
+         pDes->pPrev->pNext = nullptr;
+      }
+      else
+      {
+         setToNull = true;
+      }
+
+      clear(pDes);
+
+      if (setToNull)
+      {
+         pDestination = nullptr;
+      }
+   }
+
+   if (pSrc)
+   {
+      pDes = pDesPrevious;
+
+      while (pSrc)
+      {
+         pDes = insert(pDes, pSrc->data, true);
+         if (!pDestination)
+         {
+            pDestination = pDes;
+         }
+
+         pSrc = pSrc->pNext;
+      }
+   }
+
+
 
 }
 
