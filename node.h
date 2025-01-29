@@ -42,7 +42,7 @@ public:
    Node() : pNext(nullptr), pPrev(nullptr) {}
    // Copy Constructor
    Node(const T& data) : pNext(nullptr), pPrev(nullptr), data(data) {}
-
+   // Move Constructor
    Node(T&& data) : pNext(nullptr), pPrev(nullptr), data(std::move(data)) {}
 
    //
@@ -220,8 +220,6 @@ inline Node <T> * remove(const Node <T> * pRemove)
 
    delete pRemove;
 
-   //std::allocator.destroy(pRemove);
-
    return pReturn;
 }
 
@@ -243,7 +241,6 @@ inline Node <T> * insert(Node <T> * pCurrent,
                   bool after = false)
 {
    Node<T>* newNode = new Node<T>(t);
-
    if (pCurrent)
    {
       if (after)
@@ -263,7 +260,6 @@ inline Node <T> * insert(Node <T> * pCurrent,
          pCurrent->pPrev = newNode;
       }
    }
-
    return newNode;
 }
 
@@ -278,11 +274,10 @@ inline Node <T> * insert(Node <T> * pCurrent,
 template <class T>
 inline size_t size(const Node <T> * pHead)
 {
-   // base case is nullptr but for loop covers that as it goes till p is nullptr
-   for (const Node<T>* p = pHead; p; p = p->pNext)
-   {
-      return 1 + size(p->pNext);
-   }
+   if (!pHead)
+      return 0;
+   else
+      return 1 + size(pHead->pNext);
 }
 
 /***********************************************
@@ -296,6 +291,9 @@ inline size_t size(const Node <T> * pHead)
 template <class T>
 inline std::ostream & operator << (std::ostream & out, const Node <T> * pHead)
 {
+   for (const Node<T>* p = pHead; p; p = p->pNext)
+      out << p->data << " "; // data separated by spaces
+      //out << (p->pPrev ? ", " : "") << p->data; // data separated by commas and spaces
    return out;
 }
 
@@ -316,5 +314,4 @@ inline void clear(Node <T> * & pHead)
       pHead = pHead->pNext;
       delete pDelete;
    }
-
 }

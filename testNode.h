@@ -43,7 +43,6 @@ public:
       // test_swap_standardEmpty();
       // test_swap_oneTwo();
 
-
       // Insert
       test_insert_emptyBefore();
       test_insert_emptyAfter();
@@ -228,10 +227,12 @@ public:
       //    +----+   +----+   +----+
       Node <Spy>* p11, * p26, * p31;
       setupStandardFixture(p11, p26, p31);
+
       Node <Spy>* pDes = nullptr;
       Spy::reset();
       // exercise
       pDes = copy(p11);
+      std::cout << &pDes->data << std::endl; // test display function
       // verify
       assertUnit(Spy::numCopy() == 3);        // copy [11][26][31] to pDes
       assertUnit(Spy::numAlloc() == 3);       // the copy involves an allocation
