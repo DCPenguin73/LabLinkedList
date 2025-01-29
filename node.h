@@ -191,7 +191,9 @@ inline void assign(Node <T> * & pDestination, const Node <T> * pSource)
 template <class T>
 inline void swap(Node <T>* &pLHS, Node <T>* &pRHS)
 {
-
+   Node <T>* pTemp = pLHS;
+   pLHS = pRHS;
+   pRHS = pTemp;
 }
 
 /***********************************************
