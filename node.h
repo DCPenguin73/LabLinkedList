@@ -45,7 +45,6 @@ public:
 
    Node(T&& data) : pNext(nullptr), pPrev(nullptr), data(std::move(data)) {}
 
-
    //
    // Member variables
    //
@@ -206,7 +205,24 @@ template <class T>
 inline Node <T> * remove(const Node <T> * pRemove)
 {
 
-   return new Node<T>;
+   if (pRemove == nullptr)
+      return nullptr;
+   if (pRemove->pPrev)
+      pRemove->pPrev->pNext = pRemove->pNext;
+   if (pRemove->pNext)
+      pRemove->pNext->pPrev = pRemove->pPrev;
+
+   Node<T>* pReturn = nullptr; // Declare pReturn here
+   if (pRemove->pPrev)
+      pReturn = pRemove->pPrev;
+   else
+      pReturn = pRemove->pNext;
+
+   delete pRemove;
+
+   //std::allocator.destroy(pRemove);
+
+   return pReturn;
 }
 
 
@@ -262,7 +278,11 @@ inline Node <T> * insert(Node <T> * pCurrent,
 template <class T>
 inline size_t size(const Node <T> * pHead)
 {
-   return 99;
+   // base case is nullptr but for loop covers that as it goes till p is nullptr
+   for (const Node<T>* p = pHead; p; p = p->pNext)
+   {
+      return 1 + size(p->pNext);
+   }
 }
 
 /***********************************************
@@ -289,5 +309,12 @@ inline std::ostream & operator << (std::ostream & out, const Node <T> * pHead)
 template <class T>
 inline void clear(Node <T> * & pHead)
 {
+
+   while (pHead)
+   {
+      Node<T>* pDelete = pHead;
+      pHead = pHead->pNext;
+      delete pDelete;
+   }
 
 }

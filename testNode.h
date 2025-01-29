@@ -33,6 +33,7 @@ public:
       test_copy_standard();
 
       // Assign
+<<<<<<< HEAD
       test_assign_emptyToEmpty();
       test_assign_standardToEmpty();
       test_assign_emptyToStandard();
@@ -42,6 +43,17 @@ public:
       // test_swap_emptyStandard();
       // test_swap_standardEmpty();
       // test_swap_oneTwo();
+=======
+      //test_assign_emptyToEmpty();
+      //test_assign_standardToEmpty();
+      //test_assign_emptyToStandard();
+      //test_assign_smallToBig();
+      //test_assign_bigToSmall();
+      //test_swap_emptyEmpty();
+      //test_swap_emptyStandard();
+      //test_swap_standardEmpty();
+      //test_swap_oneTwo();
+>>>>>>> master
 
       // Insert
       test_insert_emptyBefore();
