@@ -38,6 +38,7 @@ public:
    //
 
    // Default Constructor
+
    Node() : pNext(nullptr), pPrev(nullptr) {}
    // Copy Constructor
    Node(const T& data) : pNext(nullptr), pPrev(nullptr), data(data) {}
@@ -62,7 +63,7 @@ public:
  *   COST   : O(n)
  **********************************************/
 template <class T>
-inline Node <T> * copy(const Node <T> * pSource) 
+inline Node <T> * copy(const Node <T> * pSource)
 {
    if (!pSource)
       return nullptr;
@@ -89,7 +90,97 @@ inline Node <T> * copy(const Node <T> * pSource)
 template <class T>
 inline void assign(Node <T> * & pDestination, const Node <T> * pSource)
 {
-   
+   // pSrc <- pSource
+   // pDes <- pDestination
+   // WHILE pSrc != NULL AND pDes != NULL
+   //     pDes.data <- pSrc.data
+   //     pDes <- pDes.pNext
+   //     pSrc <- pSrc.pNext
+
+   // IF pSrc != NULL
+   //     pDes <- pDesPrevious
+   //
+   //     WHILE pSrc != NULL
+   //         pDes <- insert(pDes, pSrc.data, TRUE)
+   //         IF pDestination = NULL
+   //             pDestination <- pDes
+   //         pSrc <- pSrc.pNext
+
+   // IF pSrc = NULL AND pDes != NULL
+   //     setToNull <- FALSE
+   //     IF pDes.pPrev != NULL
+   //         pDes.pPrev.pNext <- NULL
+   //     ELSE
+   //         setToNull <- TRUE
+   //
+   //     freeData(pDes)
+   //
+   //     IF setToNull
+   //         pDestination <- NULL
+
+   const Node<T> * pSrc = pSource;
+         Node<T> * pDes = pDestination;
+         Node<T> * pDesPrevious = nullptr;
+
+   while (pSrc && pDes)
+   {
+      pDes->data = pSrc->data;
+      pDesPrevious = pDes;
+      pDes = pDes->pNext;
+      pSrc = pSrc->pNext;
+   }
+
+   bool setToNull = false;
+
+   if (!pSrc && pDes) // pSource is smaller than pDestination
+   {
+      // Node<T> * pEnd = pDes;
+
+      // while (pDes->pNext) // move pDes to the end of the list.
+      // {
+      //    pDes = pDes->pNext; // move pDes forward 1 node
+      // }
+
+      // while (pDes != pEnd) {
+      //    delete pDes->pNext;
+      //    pDes = pDes->pPrev;
+      // }
+
+      if (pDes->pPrev)
+      {
+         pDes->pPrev->pNext = nullptr;
+      }
+      else
+      {
+         setToNull = true;
+      }
+
+      clear(pDes);
+
+      if (setToNull)
+      {
+         pDestination = nullptr;
+      }
+   }
+
+   if (pSrc)
+   {
+      pDes = pDesPrevious;
+
+      while (pSrc)
+      {
+         pDes = insert(pDes, pSrc->data, true);
+         if (!pDestination)
+         {
+            pDestination = pDes;
+         }
+
+         pSrc = pSrc->pNext;
+      }
+   }
+
+
+
 }
 
 /***********************************************
@@ -100,7 +191,9 @@ inline void assign(Node <T> * & pDestination, const Node <T> * pSource)
 template <class T>
 inline void swap(Node <T>* &pLHS, Node <T>* &pRHS)
 {
-   
+   Node <T>* pTemp = pLHS;
+   pLHS = pRHS;
+   pRHS = pTemp;
 }
 
 /***********************************************
@@ -111,8 +204,9 @@ inline void swap(Node <T>* &pLHS, Node <T>* &pRHS)
  *   COST   : O(1)
  **********************************************/
 template <class T>
-inline Node <T> * remove(const Node <T> * pRemove) 
+inline Node <T> * remove(const Node <T> * pRemove)
 {
+
    if (pRemove == nullptr)
       return nullptr;
    if (pRemove->pPrev)
@@ -133,7 +227,7 @@ inline Node <T> * remove(const Node <T> * pRemove)
 
 
 /**********************************************
- * INSERT 
+ * INSERT
  * Insert a new node the the value in "t" into a linked
  * list immediately before the current position.
  *   INPUT   : t - the value to be used for the new node
@@ -173,7 +267,7 @@ inline Node <T> * insert(Node <T> * pCurrent,
 
 /******************************************************
  * SIZE
- * Find the size an unsorted linked list.  
+ * Find the size an unsorted linked list.
  *  INPUT   : a pointer to the head of the linked list
  *            the value to be found
  *  OUTPUT  : number of nodes
@@ -215,6 +309,7 @@ inline std::ostream & operator << (std::ostream & out, const Node <T> * pHead)
 template <class T>
 inline void clear(Node <T> * & pHead)
 {
+
    while (pHead)
    {
       Node<T>* pDelete = pHead;
@@ -222,5 +317,3 @@ inline void clear(Node <T> * & pHead)
       delete pDelete;
    }
 }
-
-
