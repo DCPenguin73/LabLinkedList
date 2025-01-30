@@ -276,10 +276,10 @@ inline Node <T> * insert(Node <T> * pCurrent,
 template <class T>
 inline size_t size(const Node <T> * pHead)
 {
-   if (!pHead)
-      return 0;
-   else
-      return 1 + size(pHead->pNext);
+   int s = 0;
+   for (const Node<T>* p = pHead; p; p = p->pNext)
+      s++;
+   return s;
 }
 
 /***********************************************
